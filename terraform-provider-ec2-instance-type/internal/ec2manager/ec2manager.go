@@ -8,6 +8,7 @@ import (
 	// "time"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
@@ -18,18 +19,39 @@ type EC2Manager struct {
 	region string
 }
 
-// NewEC2Manager creates a new EC2Manager instance
+// NewEC2Manager creates a new EC2Manager instance using default AWS credentials
 func NewEC2Manager(region string) (*EC2Manager, error) {
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String(region),
-	})
+	config := &AWSConfig{
+		Region: region,
+	}
+	return NewEC2ManagerWithConfig(config)
+}
+
+// NewEC2ManagerWithConfig creates a new EC2Manager instance with custom AWS configuration
+func NewEC2ManagerWithConfig(config *AWSConfig) (*EC2Manager, error) {
+	awsConfig := &aws.Config{
+		Region: aws.String(config.Region),
+	}
+	
+	// Only set credentials if access key is provided
+	if config.AccessKey != "" {
+		awsConfig.Credentials = credentials.NewStaticCredentials(
+			config.AccessKey,
+			config.SecretKey,
+			config.SessionToken,
+		)
+	}
+	// If no access key provided, AWS SDK will use default credential chain
+	// (environment variables, IAM roles, shared credentials file, etc.)
+
+	sess, err := session.NewSession(awsConfig)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create AWS session: %w", err)
 	}
 
 	return &EC2Manager{
 		client: ec2.New(sess),
-		region: region,
+		region: config.Region,
 	}, nil
 }
 
@@ -265,3 +287,85 @@ func (e *EC2Manager) ChangeInstanceType(instanceID, targetInstanceType string) (
 
 	return finalInstanceInfo, nil
 }
+
+// ================================================================
+// Build and Installation Instructions
+// ================================================================
+
+/*
+To build and use this provider:
+
+1. Initialize the Go module:
+   go mod init terraform-provider-ec2-instance-type
+   go mod tidy
+
+2. Build the provider:
+   go build -o terraform-provider-ec2-instance-type
+
+3. Install locally for Terraform to find:
+   # Create the plugins directory
+   mkdir -p ~/.terraform.d/plugins/local/custom/ec2-instance-type/1.0.0/linux_amd64/
+   
+   # Copy the binary
+   cp terraform-provider-ec2-instance-type ~/.terraform.d/plugins/local/custom/ec2-instance-type/1.0.0/linux_amd64/
+
+4. Create a terraform configuration file (main.tf):
+*/
+
+// ================================================================
+// Example Terraform Configuration (main.tf)
+// ================================================================
+
+/*
+terraform {
+  required_providers {
+    ec2instancetype = {
+      source  = "local/custom/ec2-instance-type"
+      version = "1.0.0"
+    }
+  }
+}
+
+provider "ec2instancetype" {
+  region = "us-east-1"  # Change to your preferred region
+  
+  # Optional: Specify AWS credentials if not using environment/IAM roles
+  # access_key    = "your-access-key"
+  # secret_key    = "your-secret-key"
+  # session_token = "your-session-token"  # Only needed for temporary credentials
+}
+
+resource "ec2instancetype_instance_type_changer" "example" {
+  instance_id          = "i-1234567890abcdef0"  # Replace with your instance ID
+  target_instance_type = "t3.medium"            # Replace with desired type
+}
+
+output "instance_info" {
+  value = {
+    instance_id          = ec2instancetype_instance_type_changer.example.instance_id
+    current_type         = ec2instancetype_instance_type_changer.example.current_instance_type
+    target_type          = ec2instancetype_instance_type_changer.example.target_instance_type
+    state               = ec2instancetype_instance_type_changer.example.instance_state
+  }
+}
+*/
+
+// ================================================================
+// Usage Commands
+// ================================================================
+
+/*
+After creating main.tf:
+
+1. Initialize Terraform:
+   terraform init
+
+2. Plan the changes:
+   terraform plan
+
+3. Apply the changes:
+   terraform apply
+
+4. To destroy (removes from state only, doesn't affect the instance):
+   terraform destroy
+*/

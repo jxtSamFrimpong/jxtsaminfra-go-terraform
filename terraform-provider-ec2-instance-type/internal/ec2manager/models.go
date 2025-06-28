@@ -19,3 +19,11 @@ const (
 	StateTerminated InstanceState = "terminated"
 	StatePending    InstanceState = "pending"
 )
+
+// AWSConfig holds AWS configuration parameters
+type AWSConfig struct {
+	Region       string
+	AccessKey    string
+	SecretKey    string
+	SessionToken string
+}

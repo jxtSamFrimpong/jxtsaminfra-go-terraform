@@ -24,23 +24,23 @@ vendor/
 .modcache*
 
 # Editor/IDE specific files
-.idea/ # IntelliJ IDEA / GoLand
-.vscode/ # VS Code
-*.iml # IntelliJ IDEA
-.project # Eclipse
-.classpath # Eclipse
-.settings/ # Eclipse
-*.sublime-project # Sublime Text
-*.sublime-workspace # Sublime Text
-.DS_Store # macOS
-Thumbs.db # Windows
+.idea*
+.vscode*
+*.iml*
+.project*
+.classpath*
+.settings*
+*.sublime-project*
+*.sublime-workspace*
+.DS_Store*
+Thumbs.db*
 
 # Terraform specific files
-.terraform* # Terraform working directory
-*.tfplan* # Terraform plan files
-.terraform.lock.hcl # Terraform dependency lock file
-crash.log # Terraform crash logs
-override.tf # Terraform override files
-override_*.tf # Terraform override files
-*.tfstate* # Terraform state files
-*.tfstate.* # Terraform state backup files
+.terraform*
+*.tfplan*
+.terraform.lock.hcl
+crash.log
+override.tf
+override_*.tf
+*.tfstate*
+*.tfstate.*

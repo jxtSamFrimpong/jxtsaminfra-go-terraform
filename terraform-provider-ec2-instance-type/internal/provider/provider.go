@@ -20,6 +20,27 @@ func New() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("AWS_REGION", "us-east-1"),
 				Description: "AWS region",
 			},
+			"access_key": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("AWS_ACCESS_KEY_ID", ""),
+				Description: "AWS access key ID",
+				Sensitive:   true,
+			},
+			"secret_key": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("AWS_SECRET_ACCESS_KEY", ""),
+				Description: "AWS secret access key",
+				Sensitive:   true,
+			},
+			"session_token": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("AWS_SESSION_TOKEN", ""),
+				Description: "AWS session token (for temporary credentials)",
+				Sensitive:   true,
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"ec2instancetype_instance_type_changer": resourceInstanceTypeChanger(),
@@ -30,8 +51,18 @@ func New() *schema.Provider {
 
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
 	region := d.Get("region").(string)
+	accessKey := d.Get("access_key").(string)
+	secretKey := d.Get("secret_key").(string)
+	sessionToken := d.Get("session_token").(string)
 	
-	manager, err := ec2manager.NewEC2Manager(region)
+	config := &ec2manager.AWSConfig{
+		Region:       region,
+		AccessKey:    accessKey,
+		SecretKey:    secretKey,
+		SessionToken: sessionToken,
+	}
+	
+	manager, err := ec2manager.NewEC2ManagerWithConfig(config)
 	if err != nil {
 		return nil, diag.FromErr(err)
 	}
