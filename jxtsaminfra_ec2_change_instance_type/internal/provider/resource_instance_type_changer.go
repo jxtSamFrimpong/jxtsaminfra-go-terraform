@@ -12,23 +12,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-package provider
-
-import (
-	"context"
-	"fmt"
-	"github.com/jxtSamFrimpong/jxtsaminfra-go-terraform/jxtsaminfra_ec2_change_instance_type/internal/ec2manager"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-)
-
-func resourceEC2ChangeInstanceType() *schema.Resource {
+func resourceInstanceTypeChanger() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceEC2ChangeInstanceTypeCreate,
-		ReadContext:   resourceEC2ChangeInstanceTypeRead,
-		UpdateContext: resourceEC2ChangeInstanceTypeUpdate,
-		DeleteContext: resourceEC2ChangeInstanceTypeDelete,
+		CreateContext: resourceInstanceTypeChangerCreate,
+		ReadContext:   resourceInstanceTypeChangerRead,
+		UpdateContext: resourceInstanceTypeChangerUpdate,
+		DeleteContext: resourceInstanceTypeChangerDelete,
 
 		Schema: map[string]*schema.Schema{
 			"instance_id": {
@@ -56,11 +45,11 @@ func resourceEC2ChangeInstanceType() *schema.Resource {
 	}
 }
 
-func resourceEC2ChangeInstanceTypeCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	return resourceEC2ChangeInstanceTypeUpdate(ctx, d, meta)
+func resourceInstanceTypeChangerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+	return resourceInstanceTypeChangerUpdate(ctx, d, meta)
 }
 
-func resourceEC2ChangeInstanceTypeRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceInstanceTypeChangerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	manager := meta.(*ec2manager.EC2Manager)
 	instanceID := d.Get("instance_id").(string)
 
@@ -76,7 +65,7 @@ func resourceEC2ChangeInstanceTypeRead(ctx context.Context, d *schema.ResourceDa
 	return nil
 }
 
-func resourceEC2ChangeInstanceTypeUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceInstanceTypeChangerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	manager := meta.(*ec2manager.EC2Manager)
 	instanceID := d.Get("instance_id").(string)
 	targetInstanceType := d.Get("target_instance_type").(string)
@@ -95,7 +84,7 @@ func resourceEC2ChangeInstanceTypeUpdate(ctx context.Context, d *schema.Resource
 	return nil
 }
 
-func resourceEC2ChangeInstanceTypeDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+func resourceInstanceTypeChangerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	// For this resource, delete just removes it from state
 	// The EC2 instance remains unchanged
 	d.SetId("")
