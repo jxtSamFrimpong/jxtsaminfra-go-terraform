@@ -32,7 +32,7 @@ jobs:
         uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
           workdir: jxtsaminfra_ec2_change_instance_type
 
         env:
