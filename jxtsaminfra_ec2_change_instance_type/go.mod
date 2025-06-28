@@ -1,5 +1,5 @@
 // go.mod
-module terraform-provider-ec2-instance-type
+module jxtsaminfra_ec2_change_instance_type
 
 go 1.21
 

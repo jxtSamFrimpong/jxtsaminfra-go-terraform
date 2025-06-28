@@ -20,7 +20,8 @@
 vendor/
 
 # Go module cache (local only)
-.go*
+.go* 
+!.goreleaser.yml
 .modcache*
 
 # Editor/IDE specific files

@@ -5,7 +5,7 @@ package main
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
-	"terraform-provider-ec2-instance-type/internal/provider"
+	"jxtsaminfra_ec2_change_instance_type/internal/provider"
 )
 
 func main() {
