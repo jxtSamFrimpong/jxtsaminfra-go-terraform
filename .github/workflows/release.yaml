@@ -1,9 +1,10 @@
 name: jxtsaminfra-go-terraform-provider-release
 description: Release workflow for the jxtsaminfra Go Terraform provider.
 on:
-  push:
+  pull_request:
     branches:
       - master
+      - main
     tags:
       - 'v*'
 permissions:
