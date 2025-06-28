@@ -7,7 +7,7 @@ locals {
   }
 
   outputs = {
-    for k,v in ec2instancetype_instance_type_changer.main:
+    for k,v in jxtsaminfra_instance_type_changer.main:
         k => {
         instance_id          = v.instance_id
         current_type         = v.current_instance_type

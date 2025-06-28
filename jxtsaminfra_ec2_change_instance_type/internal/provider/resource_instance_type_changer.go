@@ -5,8 +5,8 @@ package provider
 
 import (
 	"context"
-	"fmt"
-	"terraform-provider-ec2-instance-type/internal/ec2manager"
+	// "fmt"
+	"jxtsaminfra_ec2_change_instance_type/internal/ec2manager"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
