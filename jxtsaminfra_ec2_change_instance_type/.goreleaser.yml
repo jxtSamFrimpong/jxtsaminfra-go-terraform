@@ -1,4 +1,3 @@
----
 version: 2
 before:
   hooks:
@@ -44,4 +43,4 @@ signs:
 release:
   draft: false
 changelog:
-  skip: true
+  disable: true
