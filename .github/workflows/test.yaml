@@ -7,7 +7,7 @@ on:
       - main
 
 defaults:
-  runs:
+  run:
     on: ubuntu-latest
     timeout-minutes: 60
     working-directory: jxtsaminfra_ec2_change_instance_type
