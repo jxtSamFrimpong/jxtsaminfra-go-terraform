@@ -5,7 +5,7 @@ package ec2manager
 
 import (
 	"fmt"
-	"time"
+	// "time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"

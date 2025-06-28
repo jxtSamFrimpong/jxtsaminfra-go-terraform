@@ -1,4 +1,4 @@
-name: jxtsaminfra-go-terraform-provider-test
+name: Test
 description: Test workflow for the jxtsaminfra Go Terraform provider.
 on:
   pull_request:
