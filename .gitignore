@@ -44,3 +44,5 @@ override.tf
 override_*.tf
 *.tfstate*
 *.tfstate.*
+.temp
+terraform-provider-ec2-instance-type
