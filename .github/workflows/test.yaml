@@ -8,7 +8,7 @@ on:
   push:
     branches:
       # - 'develop/**'
-      # - 'feature/**'
+      - 'staging/**'
       - master
       - main
 
@@ -29,7 +29,7 @@ jobs:
       matrix:
         go: ['1.21'] # Define Go version
         terraform: ['1.0.*', '1.1.*', '1.2.*'] # Define Terraform versions for testing
-
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
