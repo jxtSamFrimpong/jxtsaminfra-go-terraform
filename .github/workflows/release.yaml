@@ -16,6 +16,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Verify Tag is on Main/Master Branch
+        id: check_branch
+        run: |
+          TAG_REF="${{ github.ref }}" # e.g., refs/tags/v1.0.0
+          TAG_NAME="${TAG_REF#refs/tags/}" # e.g., v1.0.0
+
+          # Get the commit SHA that the tag points to
+          TAG_COMMIT_SHA=$(git rev-list -n 1 "$TAG_REF")
+
+          echo "Checking tag '$TAG_NAME' (commit: $TAG_COMMIT_SHA)"
+
+          # Check if the tag's commit is reachable from 'main' or 'master'
+          # git branch --contains <commit-sha> shows local branches that contain the commit
+          # git branch -r --contains <commit-sha> shows remote branches that contain the commit
+          # We check remote branches to ensure it's synced with origin
+          if git branch -r --contains "$TAG_COMMIT_SHA" | grep -q "origin/main\|origin/master"; then
+            echo "Tag is on main/master branch. Proceeding with release."
+            echo "TAG_ON_TARGET_BRANCH=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tag is NOT on main/master branch. Skipping release."
+            echo "TAG_ON_TARGET_BRANCH=false" >> "$GITHUB_OUTPUT"
+            exit 0 # Exit the step successfully but stop the job
+          fi
+        shell: bash
       - name: Unshallow
         run: git fetch --prune --unshallow
       - name: Set up Go
