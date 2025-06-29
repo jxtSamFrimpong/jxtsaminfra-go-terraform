@@ -16,12 +16,12 @@ on:
 defaults:
   run:
     working-directory: 
-timeout-minutes: 60
 
 jobs:
   # This job runs for all triggers (PRs, pushes to master/main)
   test_and_build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
