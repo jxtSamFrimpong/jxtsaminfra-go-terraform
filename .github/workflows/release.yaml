@@ -2,9 +2,9 @@ name: Release
 description: Release workflow for the jxtsaminfra Go Terraform provider.
 on:
   push:
-    branches:
-      - master
-      - main
+    # branches:
+    #   - master
+    #   - main
     tags:
       - 'v*'
 permissions:
