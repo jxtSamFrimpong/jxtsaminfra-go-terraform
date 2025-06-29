@@ -5,10 +5,8 @@ on:
     branches:
       - master
       - main
-    # types:
-    #   - closed
-    # tags:
-    #   - 'v*'
+    tags:
+      - 'v*'
 permissions:
   contents: write
 jobs:

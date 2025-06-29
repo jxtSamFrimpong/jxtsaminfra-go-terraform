@@ -7,11 +7,10 @@ on:
       - main
   push:
     branches:
+      - 'develop/**'
+      - 'feature/**'
       - master
       - main
-      - 'develop/**'
-      # You could also add other feature branches here if you want to test them on push too
-      # - 'feature/**'
 
 permissions:
   contents: write 

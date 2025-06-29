@@ -28,6 +28,11 @@ builds:
 archives:
   - format: zip
     name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md # If you have one
+      - docs/**/* 
 checksum:
   name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_SHA256SUMS'
   algorithm: sha256
