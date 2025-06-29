@@ -15,7 +15,7 @@ on:
 
 defaults:
   run:
-    working-directory: 
+    working-directory: jxtsaminfra_ec2_change_instance_type
 
 jobs:
   # This job runs for all triggers (PRs, pushes to master/main)
