@@ -7,8 +7,8 @@ on:
       - main
   push:
     branches:
-      - 'develop/**'
-      - 'feature/**'
+      # - 'develop/**'
+      # - 'feature/**'
       - master
       - main
 
