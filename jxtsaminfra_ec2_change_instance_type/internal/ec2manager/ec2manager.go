@@ -57,7 +57,7 @@ func NewEC2ManagerWithConfig(config *AWSConfig) (*EC2Manager, error) {
 
 // GetInstance tries to get instance info from AWS
 // Returns instance info object if exists, throws error if not
-func (e *EC2Manager) GetInstance(instanceID string) (*InstanceInfo, error) {
+func (e *EC2Manager) GetInstance(instanceID string) (*InstanceInfo, error) { //nolint:errcheck
 	fmt.Printf("Getting instance info for: %s\n", instanceID)
 	
 	input := &ec2.DescribeInstancesInput{

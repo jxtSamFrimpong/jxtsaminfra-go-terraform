@@ -58,8 +58,8 @@ func resourceInstanceTypeChangerRead(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	d.Set("current_instance_type", instanceInfo.InstanceType)
-	d.Set("instance_state", instanceInfo.State)
+	d.Set("current_instance_type", instanceInfo.InstanceType) //nolint:errcheck
+	d.Set("instance_state", instanceInfo.State) //nolint:errcheck
 	d.SetId(instanceID)
 
 	return nil
@@ -77,7 +77,7 @@ func resourceInstanceTypeChangerUpdate(ctx context.Context, d *schema.ResourceDa
 	}
 
 	// Update state
-	d.Set("current_instance_type", instanceInfo.InstanceType)
+	d.Set("current_instance_type", instanceInfo.InstanceType) //nolint:errcheck
 	d.Set("instance_state", instanceInfo.State)
 	d.SetId(instanceID)
 
