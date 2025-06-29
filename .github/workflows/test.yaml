@@ -77,7 +77,9 @@ jobs:
     needs: test_and_build # This job depends on the success of test_and_build
     runs-on: ubuntu-latest
     # Only run this job if the event is a push AND it's to master or main
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    if: |
+      github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') &&
+      (always() || success() || skipped())
 
     steps:
       - name: Checkout repository
