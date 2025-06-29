@@ -1,0 +1,214 @@
+<mxfile host="app.diagrams.net" modified="2025-06-29T09:11:00.000Z" agent="Gemini" etag="random-etag" version="19.0.3" type="device">
+  <diagram id="pipeline-flow" name="CI/CD Pipeline End-to-End Flow">
+    <mxGraphModel dx="1422" dy="801" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Subgraph: Developer Workflow -->
+        <mxCell id="dev-workflow-group" value="Developer Workflow" style="swimlane;startSize=30;align=center;fontStyle=1;rounded=1;fillColor=#d0e6f0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="800" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="dev-start" value="Developer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D0E6F0;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="dev-workflow-group">
+          <mxGeometry x="50" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="push-feature" value="Push to Feature Branch" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F5EEDC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="dev-workflow-group">
+          <mxGeometry x="200" y="60" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="feature-branch" value="Feature Branch" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFFBEB;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="dev-workflow-group">
+          <mxGeometry x="400" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="create-pr" value="Create Pull Request to main/master" style="rhombus;whiteSpace=wrap;html=1;fillColor=#D0E6F0;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="dev-workflow-group">
+          <mxGeometry x="600" y="60" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-dev-push" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="dev-workflow-group" source="dev-start" target="push-feature">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="80" as="sourcePoint" />
+            <mxPoint x="150" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-push-feature" value="No CI Triggered" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="push-feature">
+          <mxGeometry x="-0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-feature-pr" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="dev-workflow-group" source="feature-branch" target="create-pr">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="80" as="sourcePoint" />
+            <mxPoint x="600" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-push-feature-branch" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="dev-workflow-group" source="push-feature" target="feature-branch">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="80" as="sourcePoint" />
+            <mxPoint x="400" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Subgraph: CI Pipeline (test.yaml) -->
+        <mxCell id="ci-pipeline-group" value="CI Pipeline (test.yaml)" style="swimlane;startSize=30;align=center;fontStyle=1;rounded=1;fillColor=#B8D8D8;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="800" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="pr-event" value="PR Event Trigger" style="rhombus;whiteSpace=wrap;html=1;fillColor=#B8D8D8;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="100" y="40" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="job-test-build-ci" value="Job: test_and_build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="300" y="40" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tests-pass" value="Tests, Lint, Build Pass" style="shape=process;whiteSpace=wrap;html=1;fillColor=#E6FFCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="500" y="40" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pr-merged" value="PR Merged to main/master" style="rhombus;whiteSpace=wrap;html=1;fillColor=#D0E6F0;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="680" y="40" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="push-event-ci" value="Push Event Trigger" style="rhombus;whiteSpace=wrap;html=1;fillColor=#B8D8D8;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="100" y="120" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="job-autotag-ci" value="Job: auto_tag_release" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="300" y="120" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="calc-tag" value="Calculate Next SemVer Tag" style="shape=process;whiteSpace=wrap;html=1;fillColor=#E6FFCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="500" y="120" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="push-tag" value="Push New Tag to main/master" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D0E6F0;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="ci-pipeline-group">
+          <mxGeometry x="680" y="120" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-pr-event-job" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="ci-pipeline-group" source="pr-event" target="job-test-build-ci">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="60" as="sourcePoint" />
+            <mxPoint x="250" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-job-test-pass" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="ci-pipeline-group" source="job-test-build-ci" target="tests-pass">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="60" as="sourcePoint" />
+            <mxPoint x="500" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-tests-pass-pr-merged" value="Success" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tests-pass">
+          <mxGeometry x="0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-push-event-job" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="ci-pipeline-group" source="push-event-ci" target="job-autotag-ci">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="140" as="sourcePoint" />
+            <mxPoint x="250" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-job-autotag-calc" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="ci-pipeline-group" source="job-autotag-ci" target="calc-tag">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="140" as="sourcePoint" />
+            <mxPoint x="500" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-calc-tag-push" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="ci-pipeline-group" source="calc-tag" target="push-tag">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="140" as="sourcePoint" />
+            <mxPoint x="680" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-pr-merged-push-event" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="ci-pipeline-group" source="pr-merged">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="80" as="sourcePoint" />
+            <mxPoint x="175" y="120" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="730" y="100" />
+              <mxPoint x="175" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Subgraph: CD Pipeline (release.yaml) -->
+        <mxCell id="cd-pipeline-group" value="CD Pipeline (release.yaml)" style="swimlane;startSize=30;align=center;fontStyle=1;rounded=1;fillColor=#FFE6CC;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="510" width="800" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="tag-push-trigger" value="Tag Push Event Trigger" style="rhombus;whiteSpace=wrap;html=1;fillColor=#B8D8D8;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="cd-pipeline-group">
+          <mxGeometry x="100" y="40" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="job-release-cd" value="Job: release" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="cd-pipeline-group">
+          <mxGeometry x="300" y="40" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="goreleaser" value="GoReleaser Builds &amp; Signs Package" style="shape=process;whiteSpace=wrap;html=1;fillColor=#E6FFCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="cd-pipeline-group">
+          <mxGeometry x="500" y="40" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="upload-gh-releases" value="Uploads to GitHub Releases" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFFBEB;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="cd-pipeline-group">
+          <mxGeometry x="700" y="40" width="80" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-tag-push-job" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="cd-pipeline-group" source="tag-push-trigger" target="job-release-cd">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="60" as="sourcePoint" />
+            <mxPoint x="250" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-job-release-goreleaser" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="cd-pipeline-group" source="job-release-cd" target="goreleaser">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="60" as="sourcePoint" />
+            <mxPoint x="500" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-goreleaser-upload" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="cd-pipeline-group" source="goreleaser" target="upload-gh-releases">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="60" as="sourcePoint" />
+            <mxPoint x="700" y="60" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Subgraph: User Consumption -->
+        <mxCell id="user-consumption-group" value="User Consumption" style="swimlane;startSize=30;align=center;fontStyle=1;rounded=1;fillColor=#D0E6F0;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="800" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="terraform-registry" value="Terraform Registry" style="shape=cloud;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="user-consumption-group">
+          <mxGeometry x="100" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="terraform-user" value="Terraform User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#D0E6F0;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="user-consumption-group">
+          <mxGeometry x="300" y="40" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="terraform-init" value="`terraform init` with Provider Block" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F5EEDC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="user-consumption-group">
+          <mxGeometry x="400" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="provider-block" value="terraform {&#xa;  required_providers {&#xa;    jxtsaminfra = {&#xa;      source = &quot;jxtSamFrimpong/jxtsaminfra&quot;&#xa;      version = &quot;1.0.22&quot;&#xa;    }&#xa;  }&#xa;}" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="user-consumption-group">
+          <mxGeometry x="620" y="30" width="150" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="conn-upload-registry" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="upload-gh-releases" target="terraform-registry">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="650" as="sourcePoint" />
+            <mxPoint x="160" y="700" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="740" y="660" />
+              <mxPoint x="160" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-registry-user" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="user-consumption-group" source="terraform-registry" target="terraform-user">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="220" y="70" as="sourcePoint" />
+            <mxPoint x="300" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-user-init" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="user-consumption-group" source="terraform-user" target="terraform-init">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="70" as="sourcePoint" />
+            <mxPoint x="400" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-init-registry" value="Fetches Provider" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="user-consumption-group" source="terraform-init" target="terraform-registry">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="100" as="sourcePoint" />
+            <mxPoint x="160" y="100" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="500" y="130" />
+              <mxPoint x="160" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-init-block" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="user-consumption-group" source="terraform-init" target="provider-block">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="70" as="sourcePoint" />
+            <mxPoint x="620" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
