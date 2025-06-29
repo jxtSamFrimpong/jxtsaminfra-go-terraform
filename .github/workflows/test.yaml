@@ -13,6 +13,9 @@ on:
       # You could also add other feature branches here if you want to test them on push too
       # - 'feature/**'
 
+permissions:
+  contents: write 
+
 defaults:
   run:
     working-directory: jxtsaminfra_ec2_change_instance_type
