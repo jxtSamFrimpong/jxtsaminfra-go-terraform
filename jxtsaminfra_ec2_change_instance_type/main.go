@@ -1,6 +1,8 @@
 // ================================================================
 // main.go - Entry point for the Terraform provider
 // ================================================================
+
+//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
 package main
 
 import (

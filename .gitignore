@@ -15,6 +15,7 @@
 
 # Output of `go build`
 *.out
+bin
 
 # Dependency directories
 vendor/
@@ -47,3 +48,4 @@ override_*.tf
 *.tfstate.*
 .temp
 terraform-provider-ec2-instance-type
+delete-all-tags.sh

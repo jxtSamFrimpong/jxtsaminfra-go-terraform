@@ -13,6 +13,7 @@ locals {
         current_type         = v.current_instance_type
         target_type          = v.target_instance_type
         state               = v.instance_state
+        id = v.id
     }
   }
 }

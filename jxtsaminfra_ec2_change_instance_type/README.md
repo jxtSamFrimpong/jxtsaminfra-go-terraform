@@ -5,18 +5,18 @@
 To build and use this provider:
 
 1. Initialize the Go module:
-   go mod init terraform-provider-ec2-instance-type
+   go mod init terraform-provider-jxtsaminfra # not needed when project is cloned
    go mod tidy
 
 2. Build the provider:
-   go build -o terraform-provider-ec2-instance-type
+   go build -o terraform-provider-jxtsaminfra
 
 3. Install locally for Terraform to find:
    # Create the plugins directory
-   mkdir -p ~/.terraform.d/plugins/local/custom/ec2-instance-type/1.0.0/linux_amd64/
+   mkdir -p ~/.terraform.d/plugins/local/custom/jxtsaminfra/1.0.0/linux_amd64/
    
    # Copy the binary
-   cp terraform-provider-ec2-instance-type ~/.terraform.d/plugins/local/custom/ec2-instance-type/1.0.0/linux_amd64/
+   cp terraform-provider-jxtsaminfra ~/.terraform.d/plugins/local/custom/jxtsaminfra/1.0.0/linux_amd64/
 
 4. Create a terraform configuration file (main.tf):
 */
@@ -29,8 +29,8 @@ To build and use this provider:
 terraform {
   required_providers {
     jxtsaminfra = {
-      source  = "yourusername/jxtsaminfra"
-      version = "~> 1.0"
+      source = "jxtSamFrimpong/jxtsaminfra" # or local/custom/jxtsaminfra if you're using locally built binaries
+      version = "1.0.12"
     }
   }
 }
@@ -44,17 +44,17 @@ provider "jxtsaminfra" {
   # session_token = "your-session-token"  # Only needed for temporary credentials
 }
 
-resource "jxtsaminfra_ec2_change_instance_type" "example" {
+resource "jxtsaminfra_instance_type_changer" "example" {
   instance_id          = "i-1234567890abcdef0"  # Replace with your instance ID
   target_instance_type = "t3.medium"            # Replace with desired type
 }
 
 output "instance_info" {
   value = {
-    instance_id          = jxtsaminfra_ec2_change_instance_type.example.instance_id
-    current_type         = jxtsaminfra_ec2_change_instance_type.example.current_instance_type
-    target_type          = jxtsaminfra_ec2_change_instance_type.example.target_instance_type
-    state               = jxtsaminfra_ec2_change_instance_type.example.instance_state
+    instance_id          = jxtsaminfra_instance_type_changer.example.instance_id
+    current_type         = jxtsaminfra_instance_type_changer.example.current_instance_type
+    target_type          = jxtsaminfra_instance_type_changer.example.target_instance_type
+    state               = jxtsaminfra_instance_type_changer.example.instance_state
   }
 }
 */
@@ -140,7 +140,7 @@ resource "jxtsaminfra_ec2_change_instance_type" "example" {
 ### Example
 
 ```hcl
-resource "jxtsaminfra_ec2_change_instance_type" "web_server" {
+resource "jxtsaminfra_instance_type_changer" "web_server" {
   instance_id          = "i-1234567890abcdef0"
   target_instance_type = "t3.large"
 }

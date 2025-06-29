@@ -24,12 +24,12 @@ builds:
     ignore:
       - goos: darwin
         goarch: '386'
-    binary: 'jxtsaminfra_v{{ .Version }}'
+    binary: 'terraform-provider-jxtsaminfra_v{{ .Version }}'
 archives:
   - format: zip
-    name_template: 'jxtsaminfra_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
 checksum:
-  name_template: 'jxtsaminfra_{{ .Version }}_SHA256SUMS'
+  name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_SHA256SUMS'
   algorithm: sha256
 signs:
   - artifacts: checksum
