@@ -19,16 +19,16 @@ run:
 #       # - "path/to/your/awsclient.GetInstanceIntoRunningState"
 
 linters:
-  # You can either explicitly enable linters, or rely on golangci-lint's default set
-  # For your case, just ensure errcheck is not disabled if you want to configure it.
-  enable:
-    # - errcheck # Make sure errcheck is not in the 'disable' list
-    # Add other linters you want to use, e.g.:
-    - gofmt
-    - goimports
-    - revive
-    - staticcheck
-    - unparam
+  # # You can either explicitly enable linters, or rely on golangci-lint's default set
+  # # For your case, just ensure errcheck is not disabled if you want to configure it.
+  # enable:
+  #   # - errcheck # Make sure errcheck is not in the 'disable' list
+  #   # Add other linters you want to use, e.g.:
+  #   - gofmt
+  #   - goimports
+  #   - revive
+  #   - staticcheck
+  #   - unparam
   disable:
     - errcheck
 
