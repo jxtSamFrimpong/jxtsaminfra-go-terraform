@@ -30,8 +30,8 @@ archives:
     name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
     files:
       - README.md
-      - LICENSE
-      - CHANGELOG.md # If you have one
+      # - LICENSE
+      # - CHANGELOG.md
       - docs/**/* 
 checksum:
   name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_SHA256SUMS'
