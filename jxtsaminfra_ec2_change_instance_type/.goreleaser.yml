@@ -3,6 +3,8 @@ version: 2
 before:
   hooks:
     - go mod tidy
+    - cp -R docs ../docs
+    - cp -R examples ../examples
 builds:
   - env:
       - CGO_ENABLED=0
@@ -32,7 +34,10 @@ archives:
       - README.md
       # - LICENSE
       # - CHANGELOG.md
-      - docs/**/* 
+      - docs
+      - examples
+      - ../docs
+      - ../examples
 checksum:
   name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_SHA256SUMS'
   algorithm: sha256
