@@ -1,0 +1,51 @@
+# jxtsaminfra_ec2_change_instance_type/.golangci.yml
+run:
+  # This makes golangci-lint run slightly faster by not trying to lint vendor, test files by default.
+  skip-dirs:
+    - vendor
+  skip-files:
+    - ".*_test.go"
+
+# linters-settings:
+#   errcheck:
+#     # Exclude functions from specific packages/types
+#     # Adjust these paths if your SDK version or import paths differ slightly
+#     exclude-functions:
+#       - "(github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema.ResourceData).Set"
+#       - "(github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema.ResourceData).SetId"
+#       # If 'GetInstanceIntoRunningState' is a method on a type named 'EC2Service' in a package 'awsclient':
+#       # - "(*path/to/your/awsclient.EC2Service).GetInstanceIntoRunningState"
+#       # If 'GetInstanceIntoRunningState' is a standalone function in 'awsclient' package:
+#       # - "path/to/your/awsclient.GetInstanceIntoRunningState"
+
+linters:
+  # You can either explicitly enable linters, or rely on golangci-lint's default set
+  # For your case, just ensure errcheck is not disabled if you want to configure it.
+  enable:
+    # - errcheck # Make sure errcheck is not in the 'disable' list
+    # Add other linters you want to use, e.g.:
+    - gofmt
+    - goimports
+    - revive
+    - staticcheck
+    - unparam
+  disable:
+    - errcheck
+
+issues:
+  # If you want to set a non-zero exit code if issues are found (default is 1)
+  # issues-exit-code: 1
+  # If you want to ignore specific issues based on text or regexp
+  # ignore-text:
+  #   - "Error return value of `e.GetInstanceIntoRunningState` is not checked" # Less precise, use exclude-functions instead if possible
+
+output:
+  # This changes the output format from the deprecated 'github-actions' to 'colored-line-number'
+  # which was mentioned in your previous warning.
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+# You can also add more global settings, e.g., for Go modules
+# go:
+#   mod-file: ./go.mod # Not usually needed if working-directory is set correctly
