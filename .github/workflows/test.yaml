@@ -1,39 +1,127 @@
-name: Test
-description: Test workflow for the jxtsaminfra Go Terraform provider.
+name: CI
+
 on:
   pull_request:
     branches:
       - master
       - main
+  push:
+    branches:
+      - master
+      - main
+      - 'develop/**'
+      # You could also add other feature branches here if you want to test them on push too
+      # - 'feature/**'
 
 defaults:
   run:
-    on: ubuntu-latest
-    timeout-minutes: 60
-    working-directory: jxtsaminfra_ec2_change_instance_type
+    working-directory: 
+timeout-minutes: 60
+
 jobs:
-  test:
+  # This job runs for all triggers (PRs, pushes to master/main)
+  test_and_build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        terraform:
-          - '1.0.*'
-          - '1.1.*'
-          - '1.2.*'
+        go: ['1.21'] # Define Go version
+        terraform: ['1.0.*', '1.1.*', '1.2.*'] # Define Terraform versions for testing
+
     steps:
-      - uses: actions/setup-go@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          go-version: 1.21
-      - uses: hashicorp/setup-terraform@v2
+          fetch-depth: 0 # Needed for Git history by GoReleaser later, or tag calculation
+
+      - name: Set up Go ${{ matrix.go }}
+        uses: actions/setup-go@v5 # Use v5 for Go 1.21 and newer
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Set up Terraform ${{ matrix.terraform }}
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ matrix.terraform }}
-          terraform_wrapper: false
-      - uses: actions/checkout@v3
-      - run: go mod download
-      - run: go mod tidy
-      - run: go build -v .
-      - name: Run linters
+          terraform_wrapper: false # Use if you prefer direct tf commands
+
+      - name: Go Mod Tidy & Download
+        run: |
+          go mod tidy
+          go mod download
+
+      - name: Build Provider
+        run: go build -v .
+
+      - name: Run Go Tests
+        run: go test -v -cover ./... # Run your Go tests
+
+      # This runs once for each matrix combination. If you have provider acceptance tests,
+      # they'd typically run here.
+      # You might add a separate job for acceptance tests if they are slow and you only want them on main/master.
+      # - name: Run Terraform Acceptance Tests
+      #   run: go test -v -tags=acceptance ./...
+
+      - name: Run Linters
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
+          # args: --timeout=5m # Example of adding timeout to linter if needed
+
+  # This job only runs if the 'test_and_build' job succeeds AND it's a push to master/main
+  # It calculates the next version and pushes the tag
+  auto_tag_release:
+    needs: test_and_build # This job depends on the success of test_and_build
+    runs-on: ubuntu-latest
+    # Only run this job if the event is a push AND it's to master or main
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Crucial for getting full tag history
+
+      - name: Configure Git for tagging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get latest release tag and calculate next version
+        id: get_next_version # Add an ID to this step to access its outputs
+        run: |
+          # Fetch all tags to ensure local copy is up-to-date
+          git fetch --tags
+
+          # Get the latest semantic version tag on the current branch
+          # Filter for tags starting with 'v' and sort by semver, pick the last one
+          LATEST_TAG=$(git tag --sort=-v:refname --list "v*" | head -n 1)
+
+          if [ -z "$LATEST_TAG" ]; then
+            # No previous tags found, start with v0.0.1
+            NEXT_TAG="v0.0.1"
+            echo "No existing tags found. Starting with $NEXT_TAG"
+          else
+            # Calculate next patch version
+            # Uses 'semver' utility (install it first if not available)
+            # OR a more robust shell script for semver increment if 'semver' utility is not installed
+            # For simplicity, here's a basic patch increment
+            # You might use external tools or a more sophisticated script here.
+            # E.g., `semver bump patch $LATEST_TAG`
+            # For a simpler approach, let's just increment the patch:
+            IFS='.' read -r major minor patch <<< "${LATEST_TAG#v}"
+            NEXT_PATCH=$((patch + 1))
+            NEXT_TAG="v${major}.${minor}.${NEXT_PATCH}"
+            echo "Latest tag found: $LATEST_TAG. Next tag will be $NEXT_TAG"
+          fi
+
+          echo "NEXT_TAG=$NEXT_TAG" >> "$GITHUB_OUTPUT" # Set output for subsequent steps
+        shell: bash
+
+      - name: Create and push new tag
+        run: |
+          git tag -a ${{ steps.get_next_version.outputs.NEXT_TAG }} -m "Release ${{ steps.get_next_version.outputs.NEXT_TAG }}"
+          git push origin ${{ steps.get_next_version.outputs.NEXT_TAG }}
+        env:
+          # Use the GITHUB_TOKEN to push the tag
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
