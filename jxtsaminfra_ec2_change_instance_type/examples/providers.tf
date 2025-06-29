@@ -2,7 +2,7 @@ terraform {
   required_providers {
     jxtsaminfra = {
       source = "jxtSamFrimpong/jxtsaminfra"
-      version = "1.0.12"
+      version = "1.0.13"
     }
   }
 }
