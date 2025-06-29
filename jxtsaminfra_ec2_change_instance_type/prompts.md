@@ -1,5 +1,6 @@
 
-I want to use golang to build my own custom terraform provider with a resource to change the instance type of my aws cloud ec2 instance currently I havent used goland before but I'm okay with other programming languages, I want this provider to follow OOP principles and keep it simple these are the specs for my custom provider ================================================================= Main Class or however its going to be like takes instance id as input ===================== methods below: 
+I want to use golang to build my own custom terraform provider with a resource to change the instance type of my aws cloud ec2 instance currently I havent used goland before but I'm okay with other programming languages, I want this provider to follow OOP principles and keep it simple these are the specs for my custom provider ================================================================= 
+Main Class or however its going to be like takes instance id as input ===================== methods below: 
 
 takes instance id as input
 =====================
@@ -41,3 +42,66 @@ print summary message
 
 
 ================================================================= at the end of the day this is what my resource resource in my provider should achieve. PS(I wont be using aws cli access keys cause my environment is already having access to my aws cloud)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+we are going to create two architectural diagrams that I can import to draw.io to work on later on, the first one is the flow of of CI and CD pipelines
+
+when the dev pushes to a feature or any other branch, there is no tests run
+
+when the pull requests are made to the master or main branches, the tests in the CI are run
+
+when the tests pass and the PR is merged, the CI runs again but this time around only tagging the commit to main/master and pushing that tag(it auto calculates the latest tag)
+
+the CI (release) pipeline only runs on workflow_run(CI) completed, so when the tag has been pushed(technically the CI workflow has completed), the release pipeline runs to use the latest tag to build the package and release to terraform registry
+
+users can now use terraform provider block as prescribed in the docs to make use of the provider
+
+terraform {
+required_providers {
+jxtsaminfra = {
+source = "jxtSamFrimpong/jxtsaminfra"
+version = "1.0.22"
+}
+}
+}
+I think draw.io import formats are xml
+
+
+
+
+
+
+
+
+
+
+
+I want you to construct a comprehensive README.md file based on the information you have on the provider and its used, how users can build their own from scractch, how to use the one I've released to terraform registry, how to debug issues and more
+
+
+
+
+
+
+
+
+
+
+
+

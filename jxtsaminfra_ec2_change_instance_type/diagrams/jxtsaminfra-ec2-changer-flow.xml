@@ -1,0 +1,277 @@
+<mxfile host="app.diagrams.net" modified="2025-06-29T10:30:00.000Z" agent="Gemini" etag="random-etag-2" version="19.0.3" type="device">
+  <diagram id="instance-changer-flow" name="Instance Changer Resource Flowchart">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Start Node -->
+        <mxCell id="start" value="Start: change_instance_type" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="400" y="50" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Input -->
+        <mxCell id="input-params" value="Input: instance_id, target_instance_type" style="shape=parallelogram;whiteSpace=wrap;html=1;fillColor=#F5EEDC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="380" y="120" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Get Instance -->
+        <mxCell id="call-get-instance" value="Call: get_instance(instance_id)" style="whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="380" y="190" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="decide-instance-exists" value="Instance Exists?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFDDC1;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="410" y="260" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="error-instance-not-exist" value="Error: Instance does not exist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="100" y="275" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Compare Instance Types -->
+        <mxCell id="compare-instance-types" value="Compare Current &amp; Target Instance Type" style="whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="380" y="360" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="decide-types-different" value="Current Type == Target Type?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFDDC1;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="390" y="430" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="error-types-same" value="Error: Instance type already matches target" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="680" y="445" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Get Instance into Stopped State -->
+        <mxCell id="call-get-stopped-state" value="Call: get_instance_into_stopped_state(instance_id)" style="whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="340" y="530" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="decide-instance-stopped" value="Instance Stopped?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFDDC1;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="410" y="600" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="error-failed-to-stop" value="Error: Failed to stop instance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="100" y="615" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="print-stopped-success" value="Print: 'Instance stopped successfully'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="680" y="615" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Change Instance Type -->
+        <mxCell id="attempt-change-type" value="Attempt to change instance type" style="whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="380" y="700" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="decide-type-change-successful" value="Type Change Successful?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFDDC1;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="400" y="770" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="print-change-error" value="Print: 'Failed to change instance type'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="100" y="785" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="print-change-success" value="Print: 'Instance type changed successfully'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="680" y="785" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Unconditional Run -->
+        <mxCell id="unconditional-runner" value="Run Regardless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D0E6F0;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="400" y="880" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="call-get-running-state" value="Call: get_instance_into_running_state(instance_id)" style="whiteSpace=wrap;html=1;fillColor=#CCEEFF;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="340" y="940" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="print-summary" value="Print Summary Message" style="shape=parallelogram;whiteSpace=wrap;html=1;fillColor=#F5EEDC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1010" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- End Node -->
+        <mxCell id="end" value="End" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#333333;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="440" y="1080" width="100" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Connections -->
+        <mxCell id="conn1" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="start" target="input-params">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="90" as="sourcePoint" />
+            <mxPoint x="490" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn2" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="input-params" target="call-get-instance">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="160" as="sourcePoint" />
+            <mxPoint x="490" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn3" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="call-get-instance" target="decide-instance-exists">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="230" as="sourcePoint" />
+            <mxPoint x="490" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn4" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-instance-exists">
+          <mxGeometry x="-0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn5" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-instance-exists" target="error-instance-not-exist">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="295" as="sourcePoint" />
+            <mxPoint x="280" y="295" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn6" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-instance-exists">
+          <mxGeometry x="0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn7" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-instance-exists" target="compare-instance-types">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="330" as="sourcePoint" />
+            <mxPoint x="490" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn8" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="compare-instance-types" target="decide-types-different">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="400" as="sourcePoint" />
+            <mxPoint x="490" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn9" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-types-different">
+          <mxGeometry x="0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn10" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-types-different" target="error-types-same">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="465" as="sourcePoint" />
+            <mxPoint x="680" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn11" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-types-different">
+          <mxGeometry x="-0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn12" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-types-different" target="call-get-stopped-state">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="500" as="sourcePoint" />
+            <mxPoint x="490" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn13" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="call-get-stopped-state" target="decide-instance-stopped">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="570" as="sourcePoint" />
+            <mxPoint x="490" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn14" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-instance-stopped">
+          <mxGeometry x="-0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn15" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-instance-stopped" target="error-failed-to-stop">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="410" y="635" as="sourcePoint" />
+            <mxPoint x="280" y="635" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn16" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-instance-stopped">
+          <mxGeometry x="0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn17" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-instance-stopped" target="print-stopped-success">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="635" as="sourcePoint" />
+            <mxPoint x="680" y="635" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn18" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="print-stopped-success" target="attempt-change-type">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="770" y="655" as="sourcePoint" />
+            <mxPoint x="490" y="700" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="770" y="680" />
+              <mxPoint x="490" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn19" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="error-failed-to-stop" target="attempt-change-type">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="655" as="sourcePoint" />
+            <mxPoint x="490" y="700" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="190" y="680" />
+              <mxPoint x="490" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn20" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="attempt-change-type" target="decide-type-change-successful">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="740" as="sourcePoint" />
+            <mxPoint x="490" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn21" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-type-change-successful">
+          <mxGeometry x="-0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn22" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-type-change-successful" target="print-change-error">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="805" as="sourcePoint" />
+            <mxPoint x="280" y="805" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn23" value="Yes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="decide-type-change-successful">
+          <mxGeometry x="0.5" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="conn24" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="decide-type-change-successful" target="print-change-success">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="580" y="805" as="sourcePoint" />
+            <mxPoint x="680" y="805" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Unconditional connections to "Run Regardless" -->
+        <mxCell id="conn25" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="print-change-success" target="unconditional-runner">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="770" y="825" as="sourcePoint" />
+            <mxPoint x="490" y="880" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="770" y="850" />
+              <mxPoint x="490" y="850" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn26" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="print-change-error" target="unconditional-runner">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="825" as="sourcePoint" />
+            <mxPoint x="490" y="880" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="190" y="850" />
+              <mxPoint x="490" y="850" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="conn27" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="unconditional-runner" target="call-get-running-state">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="910" as="sourcePoint" />
+            <mxPoint x="490" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn28" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="call-get-running-state" target="print-summary">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="980" as="sourcePoint" />
+            <mxPoint x="490" y="1010" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn29" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="print-summary" target="end">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="1050" as="sourcePoint" />
+            <mxPoint x="490" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Error paths to End -->
+        <mxCell id="conn-error1-to-end" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="error-instance-not-exist" target="end">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="315" as="sourcePoint" />
+            <mxPoint x="490" y="1080" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="190" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn-error2-to-end" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="error-types-same" target="end">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="485" as="sourcePoint" />
+            <mxPoint x="490" y="1080" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="790" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
