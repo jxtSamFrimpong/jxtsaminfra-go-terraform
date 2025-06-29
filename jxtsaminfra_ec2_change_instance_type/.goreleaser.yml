@@ -36,8 +36,6 @@ archives:
       # - CHANGELOG.md
       - docs
       - examples
-      - ../docs
-      - ../examples
 checksum:
   name_template: 'terraform-provider-jxtsaminfra_{{ .Version }}_SHA256SUMS'
   algorithm: sha256
